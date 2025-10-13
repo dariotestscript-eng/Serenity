@@ -1,0 +1,33 @@
+						==============================================
+						Proyecto E2E Automatizado – Serenity BDD + 
+						Screenplay + Cucumber Reports + Gradle
+						==============================================
+
+📘 Objetivo del ejercicio:
+
+Automatizar el flujo de compra end-to-end (E2E) en SauceDemo utilizando Serenity BDD, Screenplay y Gradle, parametrizando los datos desde un archivo JSON.
+
+----------------------------------------------
+📊 Resumen de resultados:
+
+- Automatización funcional exitosa
+- Estructura sólida bajo Screenplay
+- Evidencia y reportes generados
+
+----------------------------------------------
+💡 Conclusiones y Hallazgos
+
+* La aplicación del patrón Screenplay en Serenity BDD permite dividir responsabilidades entre actores, tareas e interacciones, fomentando la reutilización de código, la escalabilidad y la trazabilidad para flujos de automatizados.
+
+* La gestión de dependencias centralizada mediante Maven o Gradle garantiza consistencia en las versiones, facilita la integración continua (CI/CD) y asegura un entorno de pruebas reproducible y estable para equipos distribuidos.
+
+* Los reportes integrados de Serenity BDD y Cucumber BDD ofrecen una trazabilidad completa del ciclo de pruebas, incluyendo porcentajes de éxito y fallo, métricas de cobertura y evidencias visuales.
+
+* Durante la automatización del sitio https://www.saucedemo.com/, se detectó que el gestor de contraseñas de Chrome mostraba un modal que interrumpía la ejecución de las pruebas.
+
+* Para resolverlo, se configuró el navegador en modo incógnito, evitando dicha interferencia. Esta medida aseguró la estabilidad y continuidad del flujo automatizado.
+
+----------------------------------------------
+
+📅 Fecha de ejecución: 11/10/2025
+👩‍🔬 Autor: Darío Javier Sotalín Pillajo

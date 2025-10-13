@@ -1,0 +1,91 @@
+plugins {
+    id 'application'
+    id 'java'
+    id 'idea'
+    id 'net.serenity-bdd.serenity-gradle-plugin' version '3.6.22'
+}
+
+group = 'com.mi.proyecto'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Serenity BDD con JUnit 4 - VERSIÓN CONSISTENTE
+    implementation 'net.serenity-bdd:serenity-core:3.6.22'
+    implementation 'net.serenity-bdd:serenity-junit:3.6.22'
+    implementation 'net.serenity-bdd:serenity-cucumber:3.6.22'
+    implementation 'net.serenity-bdd:serenity-screenplay:3.6.22'
+    implementation 'net.serenity-bdd:serenity-screenplay-webdriver:3.6.22'
+    implementation 'net.serenity-bdd:serenity-ensure:3.6.22'
+
+    // JUnit 4
+    testImplementation 'junit:junit:4.13.2'
+
+    // Selenium - VERSIÓN COMPATIBLE
+    implementation 'org.seleniumhq.selenium:selenium-java:4.14.1' // Versión estable y compatible
+
+    // WebDriver Manager - VERSIÓN ACTUALIZADA
+    implementation 'io.github.bonigarcia:webdrivermanager:5.6.2'
+
+    // Logger
+    testImplementation 'org.slf4j:slf4j-simple:2.0.9'
+
+}
+
+application {
+    mainClass = 'proyecto1.App'
+}
+
+test {
+    useJUnit()
+    systemProperty "file.encoding", "UTF-8"
+    systemProperty "sun.jnu.encoding", "UTF-8"
+    testLogging.showStandardStreams = true
+    systemProperties System.getProperties()
+
+    // ESPECIFICAR exactamente qué tests ejecutar:
+    include "com/proyectoSerenity/runners/RunnerTest.class"
+
+    systemProperty "webdriver.base.url", "https://www.saucedemo.com"
+    systemProperty "serenity.environment", "default"
+
+    // AGREGAR estas propiedades para mejor manejo de drivers
+    systemProperty "webdriver.http.factory", "jdk-http-client"
+    systemProperty "webdriver.chrome.silentOutput", "true"
+    systemProperty "wdm.chromeDriverVersion", "latest" // Usar versión más reciente automáticamente
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test) {
+    systemProperty "file.encoding", "UTF-8"
+    // Configurar tiempo de espera para tests
+    timeout = Duration.ofMinutes(10)
+}
+
+task organizeReportAssets(type: Copy) {
+    from 'target/site/serenity'
+    into 'target/site/serenity/organized'
+
+    // INCLUIR
+    include '**/*'
+    exclude 'reporte/**'  // ← NO copiar reporte/
+
+    // Mover
+    eachFile { file ->
+        file.path = "adicionales/" + file.path
+    }
+}
+
+// Configuración específica de Serenity
+serenity {
+    requirementsBaseDir = "src/test/resources/features"
+    testRoot = "com.proyectoSerenity.runners"
+    requirementsDir = "src/test/resources/features"
+    reports = ["cucumber"]
+}

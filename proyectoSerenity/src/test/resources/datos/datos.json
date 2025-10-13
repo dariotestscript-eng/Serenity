@@ -1,0 +1,14 @@
+{
+  "login": {
+    "correo": "standard_user",
+    "contrasenia": "secret_sauce"
+  },
+  "compra": {
+    "articulo1": "Sauce Labs Backpack",
+    "articulo2": "Sauce Labs Bike Light",
+    "articulo3": "Sauce Labs Bolt T-Shirt",
+    "articulo4": "Sauce Labs Fleece Jacket",
+    "articulo5": "Sauce Labs Onesie",
+    "articulo6": "Test.allTheThings() T-Shirt (Red)"
+  }
+}
