@@ -25,11 +25,21 @@ Feature: Flujo de compra completo
     Then el usuario visualiza el texto "Your Cart"
     And puede ver los productos seleccionados
 
-  Scenario: Completar el formulario y finalizar la compra
-    Given que el usuario ha iniciado sesión y se encuentra en la página "Checkout: Your Information"
-    When el usuario completa el formulario con el Nombre "Viviana", el Apellido "Castillo" y el Código Postal "10115"
-    Then el usuario visualiza el texto "Checkout: Overview" al pulsar el botón "Continue"
-    When el usuario presiona el botón "Finish"
-    Then el usuario ve el mensaje de compra exitosa: "Thank you for your order"
+
+  Scenario Outline: Completar el formulario y finalizar la compra
+
+    Given que el usuario ha iniciado sesión correctamente
+    And selecciona los productos "<Producto1>" y "<Producto2>"
+    And se encuentra en la página "Checkout: Your Information"
+    When completa el formulario con el nombre "<First>", el apellido "<Last>" y el código postal "<Code>" además pulsar "Continue"
+    Then debería en página existir "Checkout: Overview"
+    When presiona el botón "Finish"
+    Then debería ver el mensaje de confirmación "Thank you for your order"
+
+    Examples:
+      |Producto1               |Producto2                        |First   |Last     |Code  |
+      |Sauce Labs Backpack     |Sauce Labs Fleece Jacket         |Viviana |Castillo |10115 |
+      |Sauce Labs Fleece Jacket|Test.allTheThings() T-Shirt (Red)|Andres  |Gutierrez|202530|
+      |Sauce Labs Bolt T-Shirt |Sauce Labs Backpack              |Tamara  |Aguilar  |31204 |
 
 

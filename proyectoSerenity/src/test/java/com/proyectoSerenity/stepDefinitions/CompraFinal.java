@@ -8,6 +8,7 @@ import com.proyectoSerenity.tasks.Formulario;
 import com.proyectoSerenity.tasks.LoginPage;
 import com.proyectoSerenity.tasks.ProductosCarrito;
 import com.proyectoSerenity.utils.JsonReader;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -24,25 +25,41 @@ import static com.proyectoSerenity.targets.Etiquetas.*;
 public class CompraFinal {
 
     Usuario usuario = JsonReader.leer("datos/datos.json", Usuario.class);
-    List<String> productos = Arrays.asList(usuario.getCompra().getArticulo4(), usuario.getCompra().getArticulo6());
 
-    @Given(value = "que el usuario ha iniciado sesión y se encuentra en la página {string}")
-    public void chequeoText(String texto){
+
+    @Given(value = "que el usuario ha iniciado sesión correctamente")
+    public void loginSistema(){
         OnStage.theActorInTheSpotlight().attemptsTo(
                 Open.url(System.getProperty("webdriver.base.url")),
                 EsperaLoader.desaparezca(),
                 LoginPage.builder()
                         .withEmail(usuario.getLogin().getCorreo())
                         .withPassword(usuario.getLogin().getContrasenia())
-                        .build(),
-                ProductosCarrito.conProductos(productos),
-                Click.on(Etiquetas.BOTON_VERIFICAR_CARRITO),
-                Click.on(Etiquetas.BOTON_CHECKOUT),
-                Ensure.that(SistemaQuestion.del(TEXTO_CHECKOUT)).isEqualTo(texto)
+                        .build()
+
         );
     }
 
-    @When(value = "el usuario completa el formulario con el Nombre {string}, el Apellido {string} y el Código Postal {string}")
+    @And(value = "selecciona los productos {string} y {string}")
+    public void seleccionarPorducto(String producto1, String producto2){
+        List<String> productos = Arrays.asList(producto1, producto2);
+        OnStage.theActorInTheSpotlight().attemptsTo(
+                ProductosCarrito.conProductos(productos),
+                Click.on(Etiquetas.BOTON_VERIFICAR_CARRITO),
+                Click.on(Etiquetas.BOTON_CHECKOUT)
+        );
+
+    }
+
+    @And(value = "se encuentra en la página {string}")
+    public void verificarPage(String texto){
+        OnStage.theActorInTheSpotlight().attemptsTo(
+                Ensure.that(SistemaQuestion.del(TEXTO_CHECKOUT)).isEqualTo("Checkout: Your Information")
+        );
+    }
+
+
+    @When(value = "completa el formulario con el nombre {string}, el apellido {string} y el código postal {string} además pulsar \"Continue\"")
     public void completarFormulario(String nombre, String apellido, String codigo){
         OnStage.theActorInTheSpotlight().attemptsTo(
                 Formulario.builder()
@@ -53,25 +70,26 @@ public class CompraFinal {
         );
     }
 
-    @Then(value = "el usuario visualiza el texto {string} al pulsar el botón \"Continue\"")
-    public void pantallaDescripcion(String texto){
+
+    @Then(value = "debería en página existir {string}")
+    public void identificadorPage(String texto){
         OnStage.theActorInTheSpotlight().attemptsTo(
                 Ensure.that(SistemaQuestion.del(TEXTO_DESCRIPCION)).isEqualTo(texto)
         );
     }
 
-    @When(value = "el usuario presiona el botón \"Finish\"")
+
+    @When(value = "presiona el botón \"Finish\"")
     public void finalizar(){
         OnStage.theActorInTheSpotlight().attemptsTo(
                 Click.on(Etiquetas.BOTON_FINISH)
         );
     }
 
-    @Then(value = "el usuario ve el mensaje de compra exitosa: {string}")
+    @Then(value = "debería ver el mensaje de confirmación {string}")
     public void compraExitosa(String texto){
         OnStage.theActorInTheSpotlight().attemptsTo(
                 Ensure.that(SistemaQuestion.del(TEXTO_FINAL)).contains(texto)
-                );
+        );
     }
-
 }

@@ -213,6 +213,16 @@ Esto permite validar si se requiere mensajes, campos obligatorios y formatos de 
 
 ---
 
+🧩 Uso de Scenario Outline
+
+En este proyecto se aplicó un Scenario Outline en el quinto escenario, ya que representa el flujo completo de compra.
+
+El uso de Scenario Outline permite parametrizar datos dentro del mismo escenario, facilitando la ejecución de múltiples casos con diferentes combinaciones de entradas sin duplicar pasos.
+
+De esta manera, se optimiza la legibilidad, mantenibilidad y reusabilidad de los pasos definidos en el flujo principal de compra.
+
+---
+
 
 ### 🧠 Observaciones
 
