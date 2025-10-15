@@ -51,6 +51,13 @@ Previamente presiona Win + R, escribe cmd y da Enter → abre Command Prompt (CM
 git clone https://github.com/dariotestscript-eng/Serenity.git
 cd proyectoSerenity
 ```
+Alternativa,
+
+```bash
+git clone https://github.com/dariotestscript-eng/Serenity.git
+cd Serenity
+cd proyectoSerenity
+```
 ---
 
 
